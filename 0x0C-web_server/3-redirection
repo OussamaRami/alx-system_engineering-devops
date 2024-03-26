@@ -1,16 +1,26 @@
-#!/usr/bin/env bash
-# Installs nginx web server
+#!/bin/bash
 
-apt-get update
-apt-get install -y nginx
-echo "Holberton School" > /etc/nginx/html/index.html
-echo "server {
+# Update package lists
+sudo apt-get update
+
+# Install nginx
+sudo apt-get install -y nginx
+
+# Create a configuration file for redirection
+sudo bash -c 'cat > /etc/nginx/sites-available/redirect_me' << EOF
+server {
     listen 80;
-    listen [::]:80 default_server;
-    root   /etc/nginx/html;
-    index  index.html;
+    server_name _;
+
     location /redirect_me {
-        return 301 https://twitter.com/RamiOussama;
+        return 301 https://twitter.com/OussamaRami;
     }
-}" > /etc/nginx/sites-available/default
-service nginx restart
+}
+EOF
+
+sudo ln -s /etc/nginx/sites-available/redirect_me /etc/nginx/sites-enabled/
+
+sudo nginx -t
+
+sudo systemctl reload nginx
+
