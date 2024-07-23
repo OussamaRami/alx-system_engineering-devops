@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Run software as another user
+# should run the whoami command under the user
+sudo -u "$1" whoami
